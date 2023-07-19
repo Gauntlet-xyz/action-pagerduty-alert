@@ -23,12 +23,20 @@ async function sendAlert(alert) {
 try {
   const integrationKey = core.getInput('pagerduty-integration-key');
 
+  const severity = core.getInput('severity') || 'critical';
+  // throw an error if severity is not one of the allowed values
+  if (!['critical', 'error', 'warning', 'info'].includes(severity)) {
+    throw new Error(
+      `Invalid severity value: ${severity}. Allowed values are: critical, error, warning, info`
+    );
+  }
+
   let alert = {
     payload: {
       summary: `${context.repo.repo}: Error in "${context.workflow}" run by @${context.actor}`,
       timestamp: new Date().toISOString(),
       source: 'GitHub Actions',
-      severity: 'critical',
+      severity: severity,
       custom_details: {
         run_details: `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
         related_commits: context.payload.commits

@@ -18,6 +18,11 @@ Sends a critical PagerDuty alert, e.g. on action failure.
 `pagerduty-dedup-key`
 
 **Optional:** a `dedup_key` for your alert. This will enable PagerDuty to coalesce multiple alerts into one.
+
+`pagerduty-severity`
+
+**Optional:** the `severity` of the alert, defaults to critical.
+
 More documentation is available [here](https://developer.pagerduty.com/docs/events-api-v2/trigger-events/).
 
 ## Example usage
@@ -31,4 +36,5 @@ In your `steps`:
   with:
     pagerduty-integration-key: '${{ secrets.PAGERDUTY_INTEGRATION_KEY }}'
     pagerduty-dedup-key: github_workflow_failed
+    pagerduty-severity: critical
 ```
